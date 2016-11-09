@@ -1,8 +1,10 @@
 FROM alpine:edge
 
-RUN apk add --no-cache php7 \
-    && ln -s `which php7` /usr/bin/php
+WORKDIR /root
 
-COPY key.php .
+RUN apk add --no-cache openssl
 
-ENTRYPOINT ["php", "key.php"]
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
